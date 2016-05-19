@@ -1,0 +1,55 @@
+{
+  "name": "fh-sync-mysql-adapter",
+  "version": "0.1.0",
+  "description": "An adapter to facilitate exposing a RESTful API to table in MySQL via fh-sync-express-router",
+  "main": "lib/adapter.js",
+  "scripts": {
+    "linelint": "linelint $(ls lib/*.js)",
+    "jshint": "jshint $(ls lib/*.js)",
+    "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "cover": "istanbul cover -x *.test.js _mocha test/",
+    "format": "npm run linelint && npm run jshint",
+    "unit": "mocha test/",
+    "test": "npm run format && npm run unit && npm run cover && npm run check-coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feedhenry-staff/fh-sync-mysql-adapter.git"
+  },
+  "keywords": [
+    "rh",
+    "rhmap",
+    "fh",
+    "mysql",
+    "adapter",
+    "sync",
+    "fh-sync"
+  ],
+  "author": "Evan Shortiss",
+  "contributors": [
+    {
+      "name": "Evan Shortiss",
+      "email": "evanshortiss@gmail.com",
+    },
+    {
+      "name": "Philip Hayes"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/feedhenry-staff/fh-sync-mysql-adapter/issues"
+  },
+  "homepage": "https://github.com/feedhenry-staff/fh-sync-mysql-adapter#readme",
+  "dependencies": {
+    "mysql": "^2.10.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.3",
+    "jshint": "^2.9.2",
+    "linelint": "^1.0.0",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.9",
+    "sinon": "^1.17.4"
+  },
+}
