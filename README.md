@@ -57,8 +57,10 @@ var fhRestMySqlAdapter = require('fh-rest-mysql-adapter');
 // operations on the "users" table in our MySQL database
 var usersRouter = fhRestExpressRouter('users', fhRestMySqlAdapter({
   table: 'mobile_users',
+  // Any options for https://github.com/sidorares/node-mysql2 are valid inside dbOpts
   dbOpts: {
     user: 'root',
+    // port: 9001 // optional port number
     password:'password',
     host: '127.0.0.1',
     database: 'mobile'
@@ -103,7 +105,57 @@ curl -X "DELETE" http://your-app.feedhenry.com/users/1
 
 Uses the standard _fh-rest_ interface. For examples take a look at [fh-rest-memory-adapter API](https://github.com/feedhenry-staff/fh-rest-memory-adapter#direct-api).
 
-## Using Custom SQL Statements (Advanced and Untested)
+## SQL Statements
+
+### Default Statements
+By default this module will auto generate statements that target the table
+provided in the options passed to it. Those statements are as follows:
+
+#### Create
+
+*INSERT into {opts.table} SET keyN=:valueN, keyN+1=:valueN+1*
+
+Where _key_ and _value_ are generated for each key value pair in the POST data
+sent to the API, or from _params.data_ in the Direct API.
+
+For example, if this Object is posted to /users:
+
+```js
+{
+  firstname: 'red',
+  lastname: 'hat'
+}
+```
+
+The INSERT statement will be _*INSERT into users SET firstname=red, lastname=hat*_
+
+#### Read
+
+_SELECT * FROM {opts.table} WHERE id=:id;_
+
+Where _id_ comes from _params.id_ in the Direct API, or from the route params
+in the HTTP API.
+
+#### Update
+
+_UPDATE {opts.table} SET keyN=:valueN, keyN+1=:valueN+1 WHERE id=:id;_
+
+Similar to the create statement, but _id_ is also included in the params.
+
+#### Delete
+
+_DELETE FROM {opts.table} WHERE id=:id;_
+
+Uses _params.id_ to perform a delete.
+
+#### List
+
+_SELECT * FROM {opts.table} WHERE keyN=:valueN, keyN+1=:valueN+1_
+
+Uses _params.query_, or the querystring from a HTTP call, to generate the
+SELECT statement.
+
+### Using Custom SQL Statements (Advanced and Untested)
 
 If you'd like to use custom SQL statements rather than the defaults that is
 also possible. Simply provide them in the options passed to the adapter. All
