@@ -1,5 +1,5 @@
 {
-  "name": "fh-sync-mysql-adapter",
+  "name": "fh-rest-mysql-adapter",
   "version": "0.1.0",
   "description": "Expose a RESTful API to a MySQL table via fh-sync-express-router",
   "main": "lib/adapter.js",
